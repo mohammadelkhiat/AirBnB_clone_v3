@@ -2,7 +2,7 @@
 """ State API """
 
 from api.v1.views import app_views
-from flask import jsonify, request, abort
+from flask import jsonify, request, abort, make_response
 from models import storage
 from models.state import State
 
@@ -18,9 +18,9 @@ def states():
     if request.method == 'POST':
         data = request.get_json()
         if data is None:
-            abort(400, 'Not a JSON')
+            make_response(400, 'Not a JSON')
         if 'name' not in data:
-            abort(400, 'Missing name')
+            make_response(400, 'Missing name')
         state = State(**data)
         state.save()
         return jsonify(state.to_dict()), 201
