@@ -29,10 +29,10 @@ def amenities():
         return jsonify(new_amenity.to_dict()), 201
 
 
-@app_views.route('/api/v1/amenities/<amenity_id>', methods=['GET', ''])
+@app_views.route('/amenities/<amenity_id>', methods=['GET', 'DELETE', 'PUT'])
 def amenity_with_id(amenity_id):
     """Retrieves an amenity by id"""
-    advantage = storage.get('Amenity', amenity_id)
+    advantage = storage.get(Amenity, amenity_id)
     if advantage is None:
         abort(404)
 
