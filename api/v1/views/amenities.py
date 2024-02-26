@@ -32,7 +32,7 @@ def amenities():
 @app_views.route('/amenities/<amenity_id>', methods=['GET', 'DELETE', 'PUT'])
 def amenity_with_id(amenity_id):
     """Retrieves an amenity by id"""
-    advantage = storage.get(Amenity, amenity_id)
+    advantage = storage.get('Amenity', amenity_id)
     if advantage is None:
         abort(404)
 
@@ -40,7 +40,7 @@ def amenity_with_id(amenity_id):
         return jsonify(advantage.to_dict())
 
     if request.method == 'DELETE':
-        storage.delete()
+        storage.delete(advantage)
         storage.save()
         return jsonify({}), 200
 
