@@ -124,7 +124,7 @@ class TestFileStorage(unittest.TestCase):
         # test that Returns the object based on the class and its ID
         save = FileStorage._FileStorage__objects
         FileStorage._FileStorage__objects = {}
-        for key, value in classes.items():
+        for value in classes.values():
             instance = value()
             storage.new(instance)
             self.assertEqual(instance, storage.get(value, instance.id))
@@ -137,11 +137,10 @@ class TestFileStorage(unittest.TestCase):
         save = FileStorage._FileStorage__objects
         FileStorage._FileStorage__objects = {}
         count = 0
-        for key, value in classes.items():
+        for value in classes.values():
             instance = value()
             storage.new(instance)
             count += 1
-        for key, value in classes.items():
             self.assertEqual(1, storage.count(value))
         self.assertEqual(count, storage.count())
         FileStorage._FileStorage__objects = save

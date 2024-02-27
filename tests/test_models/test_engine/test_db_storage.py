@@ -19,6 +19,9 @@ import os
 import pep8
 import unittest
 DBStorage = db_storage.DBStorage
+if models.storage_t == 'db':
+    storage = DBStorage()
+    storage.reload()
 classes = {"Amenity": Amenity, "City": City, "Place": Place,
            "Review": Review, "State": State, "User": User}
 
@@ -90,7 +93,20 @@ class TestFileStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_get(self):
         """ Test that get properly retrieves one object """
+        new_state = State(name="test_state")
+        storage.new(new_state)
+        storage.save()
+        # test that Returns None if not found
+        notid = "00000000-none-exist-id00-000000000000"
+        self.assertEqual(storage.get(State, notid), None)
+        # test that Returns the object based on the class and its ID
+        self.assertEqual(new_state, storage.get(State, new_state.id))
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_count(self):
         """ Test the count number of objects in storage """
+        new_amenity = Amenity(name="test_amenity")
+        storage.new(new_amenity)
+        storage.save()
+        print(new_amenity)
+        self.assertEqual(1, storage.count(Amenity))
