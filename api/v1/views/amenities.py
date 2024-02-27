@@ -19,10 +19,10 @@ def amenities():
     if request.method == 'POST':
         data = request.get_json()
         if data is None:
-            abort(404, 'Not a JSON')
+            return jsonify({"error": "Not a JSON"}), 400
 
         if 'name' not in data:
-            abort(400, 'Missing name')
+            return jsonify({"error": "Missing name"}), 400
 
         new_amenity = Amenity(**data)
         new_amenity.save()
@@ -47,7 +47,7 @@ def amenity_with_id(amenity_id):
     if request.method == 'PUT':
         data = request.get_json()
         if data is None:
-            abort(404, 'Not a JSON')
+            return jsonify({"error": "Not a JSON"}), 400
 
         for k, v in data.items():
             if k not in ['id', 'state_id', 'created_at', 'updated_at']:

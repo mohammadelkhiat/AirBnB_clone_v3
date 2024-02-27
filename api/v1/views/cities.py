@@ -22,9 +22,9 @@ def cities(state_id):
         data = request.get_json()
         print(data)
         if data is None:
-            abort(400, 'Not a JSON')
+            return jsonify({"error": "Not a JSON"}), 400
         if 'name' not in data:
-            abort(400, 'Missing name')
+            return jsonify({"error": "Missing name"}), 400
         data['state_id'] = state_id
         new_city = City(**data)
         new_city.save()
@@ -49,7 +49,7 @@ def city_with_id(city_id):
     if request.method == 'PUT':
         data = request.get_json()
         if data is None:
-            abort(400, 'Not a JSON')
+            return jsonify({"error": "Not a JSON"}), 400
         for k, v in data.items():
             if k not in ['id', 'state_id', 'created_at', 'updated_at']:
                 setattr(city, k, v)
