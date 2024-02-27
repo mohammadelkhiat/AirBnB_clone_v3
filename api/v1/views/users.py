@@ -19,13 +19,13 @@ def users():
     if request.method == 'POST':
         data = request.get_json()
         if data is None:
-            abort(404, 'Not a JSON')
+            return jsonify({"error": "Not a JSON"}), 400
 
         if 'email' not in data:
-            abort(400, 'Missing email')
+            return jsonify({"error": "Missing email"}), 400
 
         if 'password' not in data:
-            abort(400, 'Missing password')
+            return jsonify({"error": "Missing password"}), 400
 
         new_user = User(**data)
         new_user.save()

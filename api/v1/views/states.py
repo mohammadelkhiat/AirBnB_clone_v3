@@ -18,9 +18,9 @@ def states():
     if request.method == 'POST':
         data = request.get_json()
         if data is None:
-            abort(400, 'Not a JSON')
+            return jsonify({"error": "Not a JSON"}), 400
         if 'name' not in data:
-            abort(400, 'Missing name')
+            return jsonify({"error": "Missing name"}), 400
         state = State(**data)
         state.save()
         return jsonify(state.to_dict()), 201
