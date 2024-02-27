@@ -24,10 +24,10 @@ def places(city_id):
     if request.method == 'POST':
         data = request.get_json()
         if data is None:
-            abort(400, 'Not a JSON')
+            return jsonify({"error": "Not a JSON"}), 400
 
         if 'user_id' not in data:
-            abort(400, 'Missing user_id')
+            return jsonify({"error": "Missing user_id"}), 400
 
         user = storage.get(User, data['user_id'])
         if user is None:
