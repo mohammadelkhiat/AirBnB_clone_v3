@@ -20,7 +20,6 @@ def cities(state_id):
 
     if request.method == 'POST':
         data = request.get_json()
-        print(data)
         if data is None:
             return jsonify({"error": "Not a JSON"}), 400
         if 'name' not in data:
