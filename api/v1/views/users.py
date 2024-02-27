@@ -35,7 +35,7 @@ def users():
 @app_views.route('/users/<user_id>', methods=['GET', 'DELETE', 'PUT'])
 def user_with_id(user_id):
     """Retrieves a user by id"""
-    user = storage.get('User', user_id)
+    user = storage.get(User, user_id)
     if user is None:
         abort(404)
 
@@ -50,7 +50,7 @@ def user_with_id(user_id):
     if request.method == 'PUT':
         data = request.get_json()
         if data is None:
-            abort(404, 'Not a JSON')
+            return jsonify({"error": "Not a JSON"}), 400
 
         for k, v in data.items():
             if k not in ['id', 'email', 'created_at', 'updated_at']:
